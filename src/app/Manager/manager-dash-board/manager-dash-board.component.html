@@ -1,0 +1,80 @@
+<div class="bg-light">
+  <div
+    class="grid-container"
+    id="dashBoard"
+    fxLayout
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutAlign="center"
+    fxLayoutGap="30px"
+    fxLayoutGap.xs="0"
+  >
+    <div class="item item-1"
+    [routerLink]="'/layout/employeeLeaveDetails'"
+    >
+    <img
+    src="../assets/office-worker-employee.png"
+    alt="employee"
+    height="100px"
+    width="100px"
+    [routerLink]="'/layout/employeeLeaveDetails'"
+  />
+  <br/>
+  <br>
+  Number Of Employees: ⇛ {{ this.empCount }}
+    </div>
+    <div class="item item-2"
+    [routerLink]="'/layout/employeeLeaveDetails'"
+    >
+    <img
+    src="../assets/envelope_leave.png"
+    alt="leave"
+    height="100px"
+    width="100px"
+  />
+  <br>
+  <br>
+  Employee Leave count:
+  <br>
+  <br>
+   ⇛{{ this.leaCount }}
+    </div>
+    <div class="item item-3"
+    >
+    <img
+    src="../assets/office-worker-manager.png"
+    alt="leave"
+    height="100px"
+    width="100px"
+  />
+      <br>
+      <br>
+      <ul>
+        <li>
+          <h1>Reporting to ⇛ {{ this.reportingTo }}</h1>
+        </li>
+        <li>
+          <h1>Designation ⇛ {{ this.designation }}</h1>
+        </li>
+        <li>
+          <h1>Qualification ⇛ {{ this.qualification }}</h1>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="graphContainer" style="align-items: center; text-align: center">
+    <div class="itemGraph item-4">
+      <canvas
+        ngChartjs
+        [datasets]="lineChartData"
+        [labels]="lineChartLabels"
+        [options]="lineChartOptions"
+        [legend]="lineChartLegend"
+        chartType="bar"
+        responsive="true"
+      >
+      </canvas>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

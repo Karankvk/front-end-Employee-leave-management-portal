@@ -1,0 +1,164 @@
+<div>
+  <mat-grid-list cols="3" rowHeight="7:1">
+    <mat-grid-tile
+      ><label class="container" style="color: black; margin-left: 120px">
+        <input
+          [value]="2"
+          [(ngModel)]="isVisible"
+          name="sh"
+          type="radio"
+          [checked]="!isChecked"
+        />
+        Employee table
+        <span class="checkmark"></span> </label
+    ></mat-grid-tile>
+    <mat-grid-tile
+      ><label class="container" style="color: black; margin-left: 100px">
+        <input
+          [value]="1"
+          [(ngModel)]="isVisible"
+          name="sh"
+          type="radio"
+          [checked]="isChecked"
+          checked="checked"
+        />
+        Employee leave table
+        <span class="checkmark"></span> </label
+    ></mat-grid-tile>
+    <mat-grid-tile
+      ><label class="container" style="color: black; margin-left: 70px">
+        <input
+          [value]="0"
+          [(ngModel)]="isVisible"
+          name="sh"
+          type="radio"
+          [checked]="!isChecked"
+        />
+        Employee revoke leave table
+        <span class="checkmark"></span> </label
+    ></mat-grid-tile>
+  </mat-grid-list>
+
+  <div *ngIf="isVisible == 1">
+    <h1>Employee leave details</h1>
+
+    <div id="tableDiv" class="container mt-3">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Leave Type</th>
+            <th>Reason</th>
+            <th>Status</th>
+            <th style="text-align: center">Manage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let leave of employeeLeaveDTO">
+            <td>{{ leave.employeeName }}</td>
+            <td>{{ leave.startDate | date: "dd-MMM-yyyy" }}</td>
+            <td>{{ leave.endDate | date: "dd-MMM-yyyy" }}</td>
+            <td>{{ leave.leaveType }}</td>
+            <td>{{ leave.reason }}</td>
+            <td>{{ leave.status }}</td>
+            <td style="white-space: nowrap">
+              <button
+                class="btn btn-sm btn-success btn-edit-user"
+                data-bs-toggle="modal"
+                data-bs-target="#approveLeaveModal"
+                (click)="rowItems(leave)"
+                (click)="approveLeave()"
+                (click)="showToastrUpdated()"
+                [hidden]="leave.status != 'Un-Approved'"
+                data-bs-toggle="tooltip"
+                title="Approve"
+              >
+                <i class="fa-solid fa-check"></i>
+                <!-- Approve -->
+              </button>
+
+              <button
+                class="btn btn-sm btn-danger btn-delete-user"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteLeaveModal"
+                (click)="rowItems(leave)"
+                (click)="RejectLeave()"
+                (click)="showToastrRejected()"
+                [hidden]="leave.status != 'Un-Approved'"
+                data-bs-toggle="tooltip"
+                title="Reject"
+              >
+                <i class="fa-solid fa-xmark"></i>
+                <!-- Reject -->
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div *ngIf="isVisible == 0">
+    <h1>Employee revoke leave details</h1>
+
+    <div id="tableDiv" class="container mt-3">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Leave Type</th>
+            <th>Reason</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let leave of leavesRevoke">
+            <td>{{ leave.employeeName }}</td>
+            <td>{{ leave.startDate | date: "dd-MMM-yyyy" }}</td>
+            <td>{{ leave.endDate | date: "dd-MMM-yyyy" }}</td>
+            <td>{{ leave.leaveType }}</td>
+            <td>{{ leave.reason }}</td>
+            <td>{{ leave.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div *ngIf="isVisible == 2">
+  <h1 class="employeeH2" style="text-align: center; color: black">
+    Employees details
+  </h1>
+
+  <div id="tableDiv" class="container">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <!-- <th>#ID</th> -->
+          <th>Name</th>
+          <th>Designation</th>
+          <th>Date Of Joining</th>
+          <th>Qualification</th>
+          <th>Date Of Birth</th>
+          <th>Contact</th>
+          <th>Reporting</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of employees">
+          <!-- <td>{{ employee.employeeId }}</td> -->
+          <td>{{ employee.eName }}</td>
+          <td>{{ employee.eDesignation }}</td>
+          <td>{{ employee.doj | date: "dd-MMM-yyyy" }}</td>
+          <td>{{ employee.qualification }}</td>
+          <td>{{ employee.dob | date: "dd-MMM-yyyy" }}</td>
+          <td>{{ employee.contact }}</td>
+          <td>{{ employee.reporting }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

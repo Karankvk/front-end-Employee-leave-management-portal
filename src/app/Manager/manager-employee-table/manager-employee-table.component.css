@@ -1,0 +1,23 @@
+#tableDiv {
+  /* display: contents; */
+  align-content: center;
+}
+
+.employeeH2 {
+  margin-top: 25px;
+  margin-bottom: 30px;
+  text-decoration: underline;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}

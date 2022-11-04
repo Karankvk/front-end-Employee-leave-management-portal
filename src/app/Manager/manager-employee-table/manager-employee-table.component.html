@@ -1,0 +1,35 @@
+
+<h1 class="employeeH2" style="text-align: center; color: black;">Employees details</h1>
+
+<div id="tableDiv" class="container">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <!-- <th>#ID</th> -->
+        <th>Name</th>
+        <th>Designation</th>
+        <th>Date Of Joining</th>
+        <th>Qualification</th>
+        <th>Date Of Birth</th>
+        <th>Contact</th>
+        <th>Reporting</th>
+        <th>LoginId</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of employees">
+        <!-- <td>{{ employee.employeeId }}</td> -->
+        <td>{{ employee.eName }}</td>
+        <td>{{ employee.eDesignation }}</td>
+        <td>{{ employee.doj | date: "dd-MMM-yyyy" }}</td>
+        <td>{{ employee.qualification }}</td>
+        <td>{{ employee.dob | date: "dd-MMM-yyyy" }}</td>
+        <td>{{ employee.contact }}</td>
+        <td>{{ employee.reporting }}</td>
+        <td>{{ employee.loginId }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+

@@ -1,0 +1,170 @@
+<div id="tableDiv" class="container mt-3">
+  <div>
+    <h1 style="text-align: center; text-decoration: underline; color: black">
+      Leave status
+    </h1>
+    <h4 style="color: black;">Number of leaves: {{ leaveCount }}</h4>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr  style="text-align: center;">
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Leave Type</th>
+        <th>Reason</th>
+        <th>Status</th>
+        <th>Revoke leave</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let leave of managerLeaves"  style="text-align: center;">
+        <td>{{ leave.startDate | date: "dd-MMM-yyyy" }}</td>
+        <td>{{ leave.endDate | date: "dd-MMM-yyyy" }}</td>
+        <td>{{ leave.leaveType }}</td>
+        <td>{{ leave.reason }}</td>
+        <td >{{ leave.status }}</td>
+        <td style="white-space: nowrap">
+          <button
+          class="btn btn-sm btn-primary btn-edit-user"
+          (click)="rowItems(leave)"
+          (click)="openDialog()"
+          [hidden]="leave.status == 'Approved' || leave.status == 'Rejected'"
+          data-bs-toggle="tooltip"
+          title="Edit"
+          >
+            <i class="fa-solid fa-edit"></i>
+          <!-- (click)="open(editLeaveDetails)" -->
+            <!-- Edit -->
+          </button>
+          <button
+            class="btn btn-sm btn-danger btn-revoke-user"
+            (click)="rowItems(leave)"
+            (click)="RevokeLeave()"
+            (click)="showToastrUpdated()"
+            [hidden]="leave.status == 'Approved'"
+            data-bs-toggle="tooltip"
+            title="Revoke"
+          >
+            <i class="fa-solid fa-trash-can"></i>
+            <!-- Revoked -->
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ngbModal for edit login details -->
+<ng-template #editLeaveDetails let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update employee details</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form action="/action_page.php" [formGroup]="updateLeaveForm" (ngSubmit)="updateLeave()">
+      <div class="form-floating mt-3 mb-3">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="leave.startDate"
+          id="startDate"
+          placeholder="Enter Start date"
+          name="startDate"
+          formControlName="startDate"
+        
+        />
+        <label for="startDate">Start Date</label>
+      </div>
+
+      <span *ngIf="startDate && startDate.invalid && startDate.touched" style="color: red;">
+        Invalid date
+      </span>
+
+      <div class="form-floating mt-3 mb-3">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="leave.endDate"
+          id="endDate"
+          placeholder="Enter end date"
+          name="endDate"
+          formControlName="endDate"
+        />
+        <label for="endDate">End Date</label>
+      </div>
+      <span *ngIf="endDate && endDate.invalid && endDate.touched" style="color: red;">
+        Invalid date
+      </span>
+
+      <div class="form-floating mt-3 mb-3">
+        <select class="form-control mt-3"  [(ngModel)]="leave.leaveType" id="leaveType"
+        placeholder="Enter leave type"
+          name="leaveType"
+          formControlName="leaveType">
+          <option>Casual</option>
+          <option>Sick</option>
+          <option>LOP</option>
+        </select>
+        <label for="leaveType">Leave type</label>
+      </div>
+      <span *ngIf="leaveType && leaveType.invalid && leaveType.touched" style="color: red;">
+        Invalid leave type
+      </span>
+
+      <div class="form-floating mt-3 mb-3">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="leave.reason"
+          id="reason"
+          placeholder="Enter reason"
+          name="reason"
+          formControlName="reason"
+        />
+        <label for="reason">Reason</label>
+      </div>
+      <span *ngIf="reason && reason.invalid && reason.touched" style="color: red;">
+        Invalid reason
+      </span>
+
+      <div class="form-floating mt-3 mb-3">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="leave.leaveId"
+          id="leaveId"
+          placeholder="Enter LeaveId"
+          name="leaveId"
+          formControlName="leaveId"
+        />
+        <label for="leaveId">Leave id</label>
+      </div>
+      <span *ngIf="leaveId && leaveId.invalid && leaveId.touched" style="color: red;">
+        Invalid date
+      </span>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button, submit"
+      class="btn btn-primary"
+      [disabled]="updateLeaveForm.invalid"
+        (click)="updateLeave()"
+        (click)="showToastrEdit()"
+      (click)="modal.close('Save click')"
+    >
+      👍🏽 Update
+    </button>
+  </div>
+</ng-template>
+<!-- Dialog temp -->
+
+
+<!-- <div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div> -->
