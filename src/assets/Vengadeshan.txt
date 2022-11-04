@@ -1,0 +1,57 @@
+import { NgModule } from '@angular/core';
+
+import { Routes, RouterModule } from '@angular/router';
+
+import { SettingsPageComponent } from './settings-page/settings-page.component';
+
+
+
+
+import { PersonalComponent,BottomSheetFor } from './personal/personal.component';
+
+import { FirstPageComponent } from './layout/first-page/first-page.component';
+
+import { SecondPageComponent } from './layout/second-page/second-page.component';
+
+import { CalendarComponent } from './calendar/calendar.component';
+
+
+
+
+const routes: Routes = [
+
+  { path:'first', component:FirstPageComponent },
+
+  // { path:'home', component:PersonalComponent },
+
+  { path:'second', component:SecondPageComponent,  
+
+  children: [
+
+    { path:'home', component:PersonalComponent},
+
+    { path:'setting', component:SettingsPageComponent },
+
+    { path:'calendar', component:CalendarComponent },
+
+   ]
+
+  },
+
+  // { path:'personal', component:PersonalComponent },
+
+  { path: '**', redirectTo: 'first' }
+
+];
+
+
+
+@NgModule({
+
+  imports: [RouterModule.forRoot(routes)],
+
+  exports: [RouterModule]
+
+})
+
+export class AppRoutingModule { }
