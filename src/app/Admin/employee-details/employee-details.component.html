@@ -1,0 +1,739 @@
+<div>
+  <mat-grid-list cols="2" rowHeight="9:1">
+    <mat-grid-tile
+      ><label class="container" style="color: black; margin-left: 250px">
+        <input [value]="1" [(ngModel)]="isVisible" name="sh" type="radio" />
+        Employee Table
+        <span class="checkmark"></span> </label
+    ></mat-grid-tile>
+    <mat-grid-tile
+      ><label class="container" style="color: black; margin-left: 250px">
+        <input [value]="0" [(ngModel)]="isVisible" name="sh" type="radio" />
+        Resigned Employees
+        <span class="checkmark"></span> </label
+    ></mat-grid-tile>
+  </mat-grid-list>
+
+  <div class="text-center purple" *ngIf="isVisible == 1" style="color: black">
+    <br />
+    <div style="padding: 10px">
+      <mat-form-field appearance="standard" style="margin-top: 10px">
+        <mat-label>Filter</mat-label>
+        <input
+          matInput
+          (keyup)="applyFilter($event)"
+          placeholder="Eg. Naveen"
+          #input
+          style="color: white"
+        />
+      </mat-form-field>
+      <div class="example-container mat-elevation-z8">
+        <mat-table #table #tableBorder [dataSource]="dataSource" matSort>
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Name
+            </mat-header-cell>
+            <mat-cell *matCellDef="let employee">
+              {{ employee.name }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Designation Column -->
+          <ng-container matColumnDef="designation">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Designation
+            </mat-header-cell>
+            <mat-cell *matCellDef="let employee">
+              {{ employee.designation }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Date of joining Column -->
+          <ng-container matColumnDef="doj">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Date of Joining
+            </mat-header-cell>
+            <mat-cell *matCellDef="let employee" style="text-align: center" >
+              {{ employee.doj | date: "dd-MMM-yyyy" }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Qualification Column -->
+          <ng-container matColumnDef="qualification">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Qualification
+            </mat-header-cell>
+            <mat-cell *matCellDef="let employee">
+              {{ employee.qualification }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Date of birth Column -->
+          <ng-container matColumnDef="dob">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Date of birth
+            </mat-header-cell>
+            <mat-cell *matCellDef="let employee" style="text-align: center">
+              {{ employee.dob | date: "dd-MMM-yyyy" }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Contact Column -->
+          <ng-container matColumnDef="contact">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Contact
+            </mat-header-cell>
+            <mat-cell *matCellDef="let employee" style="text-align: right">
+              {{ employee.contact }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Reporting Column -->
+          <ng-container matColumnDef="reporting">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Reporting
+            </mat-header-cell>
+            <mat-cell *matCellDef="let employee">
+              {{ employee.reporting }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Username Column -->
+          <ng-container matColumnDef="username">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Username
+            </mat-header-cell>
+            <mat-cell *matCellDef="let employee" style="text-align: left">
+              {{ employee.username }}
+            </mat-cell>
+          </ng-container>
+          <!-- Role Column -->
+          <ng-container matColumnDef="role">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              Role
+            </mat-header-cell>
+            <mat-cell *matCellDef="let employee" style="text-align: left">
+              {{ employee.role }}
+            </mat-cell>
+          </ng-container>
+
+          <!-- Manipulate Column -->
+          <ng-container matColumnDef="customColumn1">
+            <mat-header-cell *matHeaderCellDef>
+              <button
+                id="addBtn"
+                class="btn btn-sm btn-success mb-2"
+                (click)="open(registerEmployee)"
+              >
+                <i class="fa-solid fa-user-plus"></i>Create
+              </button>
+            </mat-header-cell>
+
+            <mat-cell *matCellDef="let employee">
+              <button
+                class="btn btn-sm btn-primary btn-edit-user"
+                (click)="open(editEmployee)"
+                (click)="rowItemsForEmployee(employee)"
+              >
+                <i class="fa-solid fa-user-edit"></i>
+                <!-- Edit -->
+              </button>
+
+              <button
+                class="btn btn-sm btn-danger btn-delete-user"
+                (click)="open(deleteEmployeeDetails)"
+                (click)="rowItemsForEmployee(employee)"
+              >
+                <i class="fa-solid fa-trash-can"></i>
+                <!-- Delete -->
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+          <!-- Row shown when there is no matching data. -->
+          <mat-row *matNoDataRow>
+            <mat-cell colspan="10">
+              No data matching the filter "{{ input.value }}"
+            </mat-cell>
+          </mat-row>
+        </mat-table>
+        <mat-paginator
+          [pageSizeOptions]="[5, 10]"
+          aria-label="Select page of users"
+        ></mat-paginator>
+      </div>
+    </div>
+  </div>
+  <div class="text-center red"  *ngIf="isVisible == 0" style="color: black">
+    <!-- <h1 style="text-align: center; color: black; text-decoration: underline">
+    Resigned Employees details
+  </h1> -->
+
+    <div id="tableDiv" class="container-sm mt-5">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Date Of Joining</th>
+            <th>Qualification</th>
+            <th>Date Of Birth</th>
+            <th>Contact</th>
+            <th>Use to report</th>
+            <th>Resignation Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of deletedEmployee">
+            <td>{{ employee.eName }}</td>
+            <td>{{ employee.eDesignation }}</td>
+            <td>{{ employee.doj | date: "dd-MMM-yyyy" }}</td>
+            <td>{{ employee.qualification }}</td>
+            <td>{{ employee.dob | date: "dd-MMM-yyyy" }}</td>
+            <td>{{ employee.contact }}</td>
+            <td>{{ employee.reporting }}</td>
+            <td>{{ employee.resignationDate | date: "dd-MMM-yyyy" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ngbModal for Register employee -->
+  <ng-template #registerEmployee let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Register employee</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form
+        action="/action_page.php"
+        [formGroup]="createEmployeeForm"
+        (ngSubmit)="saveEmployee()"
+      >
+        <div class="form-floating mb-3 mt-3">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="createdEmployeeDTO.userName"
+            id="userName"
+            placeholder="Enter username"
+            name="userName"
+            formControlName="userName"
+          />
+          <label for="userName">Username</label>
+        </div>
+
+        <span
+          *ngIf="getUserName && getUserName.invalid && getUserName.touched"
+          style="color: red"
+        >
+          Username is invalid
+        </span>
+
+        <div class="form-floating mb-3 mt-3">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="createdEmployeeDTO.password"
+            id="password"
+            placeholder="Enter password"
+            name="password"
+            formControlName="password"
+          />
+          <label for="password">Password</label>
+        </div>
+
+        <span
+          *ngIf="getPassword && getPassword.invalid && getPassword.touched"
+          style="color: red"
+        >
+          Password is invalid
+        </span>
+
+        <div class="form-floating mb-3 mt-3">
+          <select
+            class="form-control"
+            [(ngModel)]="createdEmployeeDTO.roleId"
+            id="roleId"
+            placeholder="Enter roleId"
+            name="roleId"
+            formControlName="roleId"
+          >
+            <option value="2">Manager</option>
+            <option value="3">Employee</option>
+          </select>
+          <label for="roleId">Role Id</label>
+        </div>
+
+        <span
+          *ngIf="getRoleId && getRoleId.invalid && getRoleId.touched"
+          style="color: red"
+        >
+          Id is invalid
+        </span>
+
+        <div class="form-floating mb-3 mt-3">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="createdEmployeeDTO.employeeName"
+            id="employeeName"
+            placeholder="Enter name"
+            name="employeeName"
+            formControlName="employeeName"
+          />
+          <label for="name">Name</label>
+        </div>
+
+        <span
+          *ngIf="
+            getEmployeeName &&
+            getEmployeeName.invalid &&
+            getEmployeeName.touched
+          "
+          style="color: red"
+        >
+          Name is invalid
+        </span>
+
+        <div class="form-floating mt-3 mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="createdEmployeeDTO.designation"
+            id="designation"
+            placeholder="Enter designation"
+            name="designation"
+            formControlName="designation"
+          />
+          <label for="designation">Designation</label>
+        </div>
+
+        <span
+          *ngIf="
+            getDesignation && getDesignation.invalid && getDesignation.touched
+          "
+          style="color: red"
+        >
+          Designation is invalid
+        </span>
+
+        <div class="form-floating mt-3 mb-3">
+          <input
+            type="date"
+            class="form-control"
+            [(ngModel)]="createdEmployeeDTO.dateOfJoining"
+            id="dateOfJoining"
+            placeholder="Enter date of joining"
+            name="dateOfJoining"
+            formControlName="dateOfJoining"
+          />
+          <label for="DateOfJoining">Date Of Joining(yyyy-mm-dd)</label>
+        </div>
+
+        <span
+          *ngIf="
+            getDateOfJoining &&
+            getDateOfJoining.invalid &&
+            getDateOfJoining.touched
+          "
+          style="color: red"
+          >Date is invalid</span
+        >
+
+        <div class="form-floating mt-3 mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="createdEmployeeDTO.qualification"
+            id="qualification"
+            placeholder="Enter qualification"
+            name="qualification"
+            formControlName="qualification"
+          />
+          <label for="qualification">Qualification</label>
+        </div>
+
+        <span
+          *ngIf="
+            getQualification &&
+            getQualification.invalid &&
+            getQualification.touched
+          "
+          style="color: red"
+          >Qualification is invalid</span
+        >
+
+        <div class="form-floating mt-3 mb-3">
+          <input
+            type="date"
+            class="form-control"
+            [(ngModel)]="createdEmployeeDTO.dateOfBirth"
+            id="dob"
+            placeholder="Enter DateOfBirth"
+            name="dateOfBirth"
+            formControlName="dateOfBirth"
+          />
+          <label for="DateOfBirth">Date Of Birth(yyyy-mm-dd)</label>
+        </div>
+
+        <span
+          *ngIf="
+            getDateOfBirth && getDateOfBirth.invalid && getDateOfBirth.touched
+          "
+          style="color: red"
+          >Date is invalid</span
+        >
+
+        <div class="form-floating mt-3 mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="createdEmployeeDTO.contact"
+            id="contact"
+            placeholder="Enter contact"
+            name="contact"
+            formControlName="contact"
+          />
+          <label for="contact">Contact</label>
+        </div>
+
+        <span
+          *ngIf="getContact && getContact.invalid && getContact.touched"
+          style="color: red"
+          >Contact is invalid</span
+        >
+
+        <div class="form-floating mt-3 mb-3">
+          <select
+            class="form-control mt-3"
+            [(ngModel)]="createdEmployeeDTO.reporting"
+            id="reporting"
+            placeholder="Enter reporting"
+            name="reporting"
+            formControlName="reporting"
+          >
+            <option>Naveen Kumar</option>
+            <option>Vengadeshan K</option>
+            <option>Lavanya</option>
+          </select>
+          <label for="reporting">Reporting</label>
+        </div>
+
+        <span
+          *ngIf="getReporting && getReporting.invalid && getReporting.touched"
+          style="color: red"
+          >Report is invalid</span
+        >
+
+        <div class="form-floating mt-3 mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="createdEmployeeDTO.loginId"
+            id="loginID"
+            placeholder="Enter LoginID"
+            name="loginId"
+            formControlName="loginId"
+            [hidden]="true"
+          />
+          <!-- <label for="loginId">Login Id</label> -->
+        </div>
+
+        <!-- <span
+          *ngIf="getLoginId && getLoginId.invalid && getLoginId.touched"
+          style="color: red"
+          >Id is invalid</span
+        > -->
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button, submit"
+        class="btn btn-primary"
+        [disabled]="createEmployeeForm.invalid"
+        (click)="saveEmployee()"
+        (click)="modal.close('Save click')"
+      >
+        😎 Add
+      </button>
+    </div>
+  </ng-template>
+
+  <!-- ngbModal for edit employee -->
+  <ng-template #editEmployee let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">
+        Update employee details
+      </h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form
+        id="editForm"
+        action="/action_page.php"
+        [formGroup]="updateEmployeeForm"
+        (ngSubmit)="updateAnEmployee()"
+      >
+        <div class="form-floating mt-3 mb-3">
+          <select
+            class="form-control"
+            [(ngModel)]="updateEmployeeDTO.roleId"
+            id="roleID"
+            placeholder="Enter roleID"
+            name="roleId"
+            formControlName="roleId"
+          >
+            <option value="2">Manager</option>
+            <option value="3">Employee</option>
+          </select>
+          <label for="Id">Role Id</label>
+        </div>
+
+        <span
+          *ngIf="UpdateRoleId && UpdateRoleId.invalid && UpdateRoleId.touched"
+          style="color: red"
+        >
+          Invalid role Id
+        </span>
+
+        <div class="form-floating mb-3 mt-3">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="updateEmployeeDTO.name"
+            id="name"
+            placeholder="Enter name"
+            name="name"
+            formControlName="name"
+          />
+          <label for="Name">Name</label>
+        </div>
+
+        <span
+          *ngIf="ename && ename.invalid && ename.touched"
+          style="color: red"
+        >
+          Name is invalid
+        </span>
+
+        <div class="form-floating mt-3 mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="updateEmployeeDTO.designation"
+            id="designation"
+            placeholder="Enter designation"
+            name="designation"
+            formControlName="designation"
+          />
+          <label for="designation">Designation</label>
+        </div>
+
+        <span
+          *ngIf="edesignaton && edesignaton.invalid && edesignaton.touched"
+          style="color: red"
+        >
+          Designation is invalid
+        </span>
+
+        <div class="form-floating mt-3 mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="updateEmployeeDTO.doj"
+            id="doj"
+            placeholder="Enter date of joining"
+            name="doj"
+            formControlName="doj"
+          />
+          <label for="dateOfJoining">Date Of Joining(yyyy-mm-dd)</label>
+        </div>
+
+        <span
+          *ngIf="
+            dateOfJoining && dateOfJoining.invalid && dateOfJoining.touched
+          "
+          style="color: red"
+        >
+          Date is invalid
+        </span>
+
+        <div class="form-floating mt-3 mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="updateEmployeeDTO.qualification"
+            id="qualification"
+            placeholder="Enter qualification"
+            name="qualification"
+            formControlName="qualification"
+          />
+          <label for="qualification">Qualification</label>
+        </div>
+
+        <span
+          *ngIf="
+            eQualification && eQualification.invalid && eQualification.touched
+          "
+          style="color: red"
+        >
+          Qualification is invalid
+        </span>
+
+        <div class="form-floating mt-3 mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="updateEmployeeDTO.dob"
+            id="dob"
+            placeholder="Enter DateOfBirth"
+            name="dob"
+            formControlName="dob"
+          />
+          <label for="dateOfBirth">Date Of Birth(yyyy-mm-dd)</label>
+        </div>
+
+        <span
+          *ngIf="dateOfBirth && dateOfBirth.invalid && dateOfBirth.touched"
+          style="color: red"
+        >
+          Date is invalid
+        </span>
+
+        <div class="form-floating mt-3 mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="updateEmployeeDTO.contact"
+            id="contact"
+            placeholder="Enter contact"
+            name="contact"
+            formControlName="contact"
+          />
+          <label for="Contact">Contact</label>
+        </div>
+
+        <span
+          *ngIf="Contact && Contact.invalid && Contact.touched"
+          style="color: red"
+        >
+          Contact is invalid
+        </span>
+
+        <div class="form-floating mt-3 mb-3">
+          <select
+            class="form-control mt-3"
+            [(ngModel)]="updateEmployeeDTO.reporting"
+            id="reporting"
+            placeholder="Enter reporting"
+            name="reporting"
+            formControlName="reporting"
+          >
+            <option>Siba Sankar</option>
+            <option>Naveen Kumar</option>
+            <option>Vengadeshan K</option>
+            <option>Lavanya</option>
+          </select>
+          <label for="Reporting">Reporting</label>
+        </div>
+
+        <span
+          *ngIf="Reporting && Reporting.invalid && Reporting.touched"
+          style="color: red"
+        >
+          Reporting is invalid
+        </span>
+
+        <div class="form-floating mt-3 mb-3">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="updateEmployeeDTO.loginId"
+            id="loginId"
+            placeholder="Enter loginId"
+            name="loginId"
+            formControlName="loginId"
+            [hidden]="true"
+          />
+          <!-- <label for="LoginId">Login Id</label> -->
+        </div>
+
+        <span
+          *ngIf="
+            UpdateloginId && UpdateloginId.invalid && UpdateloginId.touched
+          "
+          style="color: red"
+        >
+          Id is invalid
+        </span>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button, submit"
+        class="btn btn-primary"
+        [disabled]="updateEmployeeForm.invalid"
+        (click)="updateAnEmployee()"
+        (click)="showToastrUpdated()"
+        (click)="modal.close('Save click')"
+      >
+        👍🏽 Update
+      </button>
+    </div>
+  </ng-template>
+
+  <!-- ngbModal for delete a employee record -->
+  <ng-template #deleteEmployeeDetails let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">
+        Delete employee details
+      </h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form
+        action="/action_page.php"
+        [formGroup]="deleteEmployeeForm"
+        (ngSubmit)="deleteEmployeeDetail()"
+      >
+        <p>
+          Sure you want to delete entire record of this employee.<!--{{ updateEmployeeDTO.name }}. -->
+        </p>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button, submit"
+        class="btn btn-primary"
+        [disabled]="deleteEmployeeForm.invalid"
+        (click)="deleteEmployeeDetail()"
+        (click)="showToastrDeleted()"
+        (click)="modal.close('Save click')"
+      >
+        😭 Delete
+      </button>
+    </div>
+  </ng-template>
+</div>

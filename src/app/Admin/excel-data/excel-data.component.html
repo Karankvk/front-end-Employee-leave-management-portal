@@ -1,0 +1,563 @@
+<div class="row mt-5">
+  <div class="col-8">
+    <label class="btn btn-default p-0">
+      <input type="file" (change)="selectFile($event)" />
+    </label>
+  </div>
+  <div class="col-4">
+    <button
+      class="btn btn-success btn-sm"
+      [disabled]="!selectedFiles"
+      (click)="upload()"
+    >
+      Upload
+    </button>
+  </div>
+</div>
+<h4 style="text-align: center; color: red; text-decoration: underline;">File size should be less than 10mb</h4>
+
+<div *ngIf="currentFile" class="progress my-3">
+  <div
+    class="progress-bar progress-bar-info progress-bar-striped"
+    role="progressbar"
+    attr.aria-valuenow="{{ progress }}"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    [ngStyle]="{ width: progress + '%' }"
+  >
+    {{ progress }}%
+  </div>
+</div>
+<div *ngIf="message" class="alert alert-secondary" role="alert">
+  {{ message }}
+</div>
+<!-- <button id="downloadbtn" class="btn btn-success" (click)="createPdf()">
+  Download pdf
+</button> -->
+<mat-form-field appearance="standard" style="margin-top: 20px;">
+  <mat-label>Filter</mat-label>
+  <input
+    matInput
+    (keyup)="applyFilter($event)"
+    placeholder="Ex. Naveen"
+    #input
+    style="color: white"
+  />
+</mat-form-field>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
+    <!-- Name Column -->
+    <ng-container matColumnDef="first_name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>First name</th>
+      <td mat-cell *matCellDef="let row">{{ row.first_name }}</td>
+    </ng-container>
+
+    <!-- Designation Column -->
+    <ng-container matColumnDef="last_name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Last name</th>
+      <td mat-cell *matCellDef="let row">{{ row.last_name }}</td>
+    </ng-container>
+
+    <!-- Date of joining Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+      <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+    </ng-container>
+
+    <!-- Qualification Column -->
+    <ng-container matColumnDef="gender">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Gender</th>
+      <td mat-cell *matCellDef="let row">{{ row.gender }}</td>
+    </ng-container>
+
+    <!-- Date of birth column -->
+    <ng-container matColumnDef="ipAddress">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>IP address</th>
+      <td mat-cell *matCellDef="let row">{{ row.ipAddress }}</td>
+    </ng-container>
+
+    <!-- Contact column -->
+    <ng-container matColumnDef="mobile">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Contact</th>
+      <td mat-cell *matCellDef="let row">{{ row.mobile }}</td>
+    </ng-container>
+
+    <!-- CRUD Column -->
+    <ng-container matColumnDef="customeColumn1">
+      <th mat-header-cell *matHeaderCellDef>
+        <button
+          id="addBtn"
+          class="btn btn-sm btn-success mb-2"
+          (click)="open(createEmployeeModel)"
+
+        >
+          <i class="fa-solid fa-user-plus"></i>Create
+        </button>
+
+        <!-- <button id="downloadbtn" class="btn btn-sm btn-success mb-2" (click)="createGenderSortPdf()">
+          Download pdf
+        </button> -->
+
+        <div class="dropdown dropstart text-end" id="downloadbtn">
+          <button type="button" class="btn btn-sm btn-success dropdown-toggle" data-bs-toggle="dropdown">
+            Download PDF
+          </button>
+          <ul class="dropdown-menu">
+            <li><button class="btn btn-sm btn-warning dropdown-item" (click)="createIdSortPdf()">Unsorted</button></li>
+            <li><button class="btn btn-sm btn-info dropdown-item" (click)="createNameSortPdf()">Name sort</button></li>
+            <li><button class="btn btn-sm btn-primary dropdown-item" (click)="createGenderSortPdf()">Gender sort</button></li>
+          </ul>
+        </div>
+
+      </th>
+
+      <td mat-cell *matCellDef="let employee">
+        <button
+          class="btn btn-sm btn-primary btn-edit-user"
+          (click)="open(editEmployeeModel)"
+          (click)="rowItemsForEmployee(employee)"
+        >
+          <i class="fa-solid fa-user-edit"></i>
+          Edit
+        </button>
+
+        <button
+          class="btn btn-sm btn-danger btn-delete-user"
+          (click)="open(deleteEmployeeDetails)"
+          (click)="rowItemsForDeleteEmployee(employee)"
+        >
+          <i class="fa-solid fa-trash-can"></i>
+           Delete
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="10">
+        No data matching the filter "{{ input.value }}"
+      </td>
+    </tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    aria-label="Select page of users"
+  >
+</mat-paginator>
+</div>
+
+<!-- ngbModal for Register employee -->
+<ng-template #createEmployeeModel let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Register an employee</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form
+      action="/action_page.php"
+      [formGroup]="createEmployeeForm"
+      (ngSubmit)="createEmployee()"
+    >
+
+
+      <div class="form-floating mb-3 mt-3">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="employeeInformation.first_name"
+          id="first_name"
+          placeholder="Enter firstName"
+          name="first_name"
+          formControlName="first_name"
+        />
+        <label for="first_name">First name</label>
+      </div>
+
+      <span
+        *ngIf="getFirstName && getFirstName.invalid && getFirstName.touched"
+        style="color: red"
+      >
+        Name is invalid
+      </span>
+
+      <div class="form-floating mb-3 mt-3">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="employeeInformation.last_name"
+          id="last_name"
+          placeholder="Enter last_name"
+          name="last_name"
+          formControlName="last_name"
+        />
+        <label for="last_name">Last name</label>
+      </div>
+
+      <span
+        *ngIf="getLastName && getLastName.invalid && getLastName.touched"
+        style="color: red"
+      >
+        Name is invalid
+      </span>
+
+      <div class="form-floating mb-3 mt-3">
+        <input
+          type="email"
+          class="form-control"
+          [(ngModel)]="employeeInformation.email"
+          id="email"
+          placeholder="Enter email"
+          name="email"
+          formControlName="email"
+        />
+        <label for="email">Email</label>
+      </div>
+
+      <span
+        *ngIf="
+          getEmail &&
+          getEmail.invalid &&
+          getEmail.touched
+        "
+        style="color: red"
+      >
+        Email is invalid
+      </span>
+
+      <div class="form-floating mt-3 mb-3">
+        <select
+          class="form-control mt-3"
+          [(ngModel)]="employeeInformation.gender"
+          id="gender"
+          placeholder="Select gender"
+          name="gender"
+          formControlName="gender"
+        >
+          <option>Male</option>
+          <option>Female</option>
+          <option>Other</option>
+        </select>
+        <label for="gender">Gender</label>
+      </div>
+
+      <span
+        *ngIf="getGender && getGender.invalid && getGender.touched"
+        style="color: red"
+        >Gender is invalid</span
+      >
+
+      <div class="form-floating mt-3 mb-3">
+        <input
+          type="ipaddress"
+          class="form-control"
+          [(ngModel)]="employeeInformation.ipAddress"
+          id="ipAddress"
+          placeholder="ipAddress"
+          name="ipAddress"
+          formControlName="ipAddress"
+        />
+        <!--
+                    [textMask]="{mask: ipMask}"
+         -->
+        <label for="ipAddress">IP - Address</label>
+      </div>
+
+      <span
+        *ngIf="
+          getIpAddress &&
+          getIpAddress.invalid &&
+          getIpAddress.touched
+        "
+        style="color: red"
+        >IP is invalid</span
+      >
+
+      <div class="form-floating mt-3 mb-3">
+        <input
+          type="tel"
+          class="form-control"
+          [(ngModel)]="employeeInformation.mobile"
+          id="mobile"
+          placeholder="Enter mobile"
+          name="mobile"
+          formControlName="mobile"
+          [textMask]="{mask: mobileMask}"
+        />
+        <label for="mobile">Mobile</label>
+      </div>
+
+      <span
+        *ngIf="
+          getMobile &&
+          getMobile.invalid &&
+          getMobile.touched
+        "
+        style="color: red"
+        >Mobile no. is invalid</span
+      >
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="button, submit"
+      class="btn btn-primary"
+      [disabled]="createEmployeeForm.invalid"
+      (click)="createEmployee()"
+      (click)="modal.close('Save click')"
+    >
+      😎 Add
+    </button>
+  </div>
+</ng-template>
+
+<!-- ngbModal for edit employee -->
+<ng-template #editEmployeeModel let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Update employee details
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form
+      id="editForm"
+      action="/action_page.php"
+      [formGroup]="updateEmployeeForm"
+      (ngSubmit)="updateEmployee()"
+    >
+      <div class="form-floating mb-3 mt-3">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="employeeInformation.first_name"
+          id="first_name"
+          placeholder="Enter first_name"
+          name="first_name"
+          formControlName="first_name"
+        />
+        <label for="first_name">First name</label>
+      </div>
+
+      <span
+        *ngIf="getEditFirstName && getEditFirstName.invalid && getEditFirstName.touched"
+        style="color: red"
+      >
+        Name is invalid
+      </span>
+
+      <div class="form-floating mt-3 mb-3">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="employeeInformation.last_name"
+          id="last_name"
+          placeholder="Enter last_name"
+          name="last_name"
+          formControlName="last_name"
+        />
+        <label for="last_name">Last name</label>
+      </div>
+
+      <span
+        *ngIf="getEditLastName && getEditLastName.invalid && getEditLastName.touched"
+        style="color: red"
+      >
+        Name is invalid
+      </span>
+
+      <div class="form-floating mt-3 mb-3">
+        <input
+          type="email"
+          class="form-control"
+          [(ngModel)]="employeeInformation.email"
+          id="email"
+          placeholder="Enter email"
+          name="email"
+          formControlName="email"
+        />
+        <label for="email">Email</label>
+      </div>
+
+      <span
+        *ngIf="
+          getEditEmail && getEditEmail.invalid && getEditEmail.touched
+        "
+        style="color: red"
+      >
+        Email is invalid
+      </span>
+
+      <div class="form-floating mt-3 mb-3">
+        <select
+          class="form-control"
+          [(ngModel)]="employeeInformation.gender"
+          id="gender"
+          placeholder="Enter gender"
+          name="gender"
+          formControlName="gender"
+        >
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+        <label for="gender">Gender</label>
+      </div>
+
+      <span
+        *ngIf="getEditGender && getEditGender.invalid && getEditGender.touched"
+        style="color: red"
+      >
+        Invalid gender
+      </span>
+
+      <div class="form-floating mt-3 mb-3">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="employeeInformation.ipAddress"
+          id="ipAddress"
+          placeholder="Enter ipAddress"
+          name="ipAddress"
+          formControlName="ipAddress"
+        />
+        <label for="ipAddress">IP-Address</label>
+      </div>
+
+      <span
+        *ngIf="getEditIpAddress && getEditIpAddress.invalid && getEditIpAddress.touched"
+        style="color: red"
+      >
+        Invalid IP - Address
+      </span>
+
+      <div class="form-floating mt-3 mb-3">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="employeeInformation.mobile"
+          id="mobile"
+          placeholder="Enter mobile"
+          name="mobile"
+          formControlName="mobile"
+          [textMask]="{mask: mobileMask}"
+        />
+        <label for="mobile">Mobile</label>
+      </div>
+
+      <span
+        *ngIf="getEditMobile && getEditMobile.invalid && getEditMobile.touched"
+        style="color: red"
+      >
+        Invalid mobile number
+      </span>
+
+
+      <div class="form-floating mt-3 mb-3">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="employeeInformation.employeeId"
+          id="employeeId"
+          placeholder="Enter employeeId"
+          name="employeeId"
+          formControlName="employeeId"
+          [hidden]="true"
+        />
+        <!-- <label for="LoginId">Login Id</label> -->
+      </div>
+
+      <span
+        *ngIf="
+          getEditEmployeeId && getEditEmployeeId.invalid && getEditEmployeeId.touched
+        "
+        style="color: red"
+      >
+        ID is invalid
+      </span>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button, submit"
+      class="btn btn-primary"
+      [disabled]="updateEmployeeForm.invalid"
+      (click)="updateEmployee()"
+      (click)="modal.close('Save click')"
+    >
+      👍🏽 Update
+    </button>
+  </div>
+</ng-template>
+
+<!-- ngbModal for delete a employee record -->
+<ng-template #deleteEmployeeDetails let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Delete employee details
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form
+      action="/action_page.php"
+      [formGroup]="deleteEmployeeForm"
+      (ngSubmit)="deleteEmployee()"
+    >
+      <p>
+        Sure you want to delete entire record of this employee.
+      </p>
+
+       <div class="form-floating mb-3 mt-3">
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="employeeInformation.employeeId"
+        id="employeeId"
+        placeholder="Enter employeeId"
+        name="employeeId"
+        formControlName="employeeId"
+        [hidden]="true"
+      />
+      <!-- <label for="employeeId">Employee ID</label> -->
+    </div>
+
+    <!-- <span
+      *ngIf="getEmployeeId && getEmployeeId.invalid && getEmployeeId.touched"
+      style="color: red"
+    >
+      Invalid employee-ID
+    </span> -->
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button, submit"
+      class="btn btn-primary"
+      [disabled]="deleteEmployeeForm.invalid"
+      (click)="deleteEmployee()"
+      (click)="modal.close('Save click')"
+    >
+      😭 Delete
+    </button>
+  </div>
+</ng-template>

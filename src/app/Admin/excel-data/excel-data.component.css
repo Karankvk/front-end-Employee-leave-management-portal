@@ -1,0 +1,84 @@
+#addBtn {
+  /* margin: auto; */
+  align-items: center;
+}
+
+.btn-delete-user {
+ float: right;
+}
+
+.row, .card {
+  max-width: 400px;
+  margin: auto;
+  /* margin-top: 50px; */
+  float: none;
+  padding: 10px;
+  border: 0px;
+  border-radius: 20px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.459);
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 300px;
+}
+
+mat-cell, mat-footer-cell {
+  flex: 1;
+  display: list-item;
+  text-align: left;
+  overflow: hidden;
+  word-wrap: break-word;
+  min-height: 0%;
+  padding: 1%;
+}
+
+mat-header-cell {
+  flex: 1;
+  display: table-row;
+  text-align: center;
+  align-items: center;
+  overflow: none;
+  min-height: 0%;
+  margin-left: 25px;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+  display: inline-block;
+  position: relative;
+  background-color: #404242;
+}
+
+table.mat-table {
+  border-spacing: 0;
+  width: 100%;
+}
+
+mat-cell:first-of-type, mat-header-cell:first-of-type, mat-footer-cell:first-of-type {
+  padding-left: 10px;
+}
+
+#tableDiv {
+  font-size: 14px;
+  width: 100%;
+  display: inline-block;
+  position: relative;
+  align-items: center;
+  word-break: break-word;
+}
+
+#downloadbtn {
+  /* margin: auto; */
+  /* margin-top: 50px; */
+  float: right;
+  /* padding: 10px; */
+  text-align: center;
+}
+th,td{
+  width: 20px;
+}

@@ -1,0 +1,19 @@
+
+<h1>Role details</h1>
+<div id="tableDiv" class="container mt-3">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Role ID</th>
+        <th>Roles</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let role of allRoles">
+        <td>{{ role.rid }}</td>
+        <td>{{ role.roles }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

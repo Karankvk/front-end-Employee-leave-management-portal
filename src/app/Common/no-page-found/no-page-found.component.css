@@ -1,0 +1,12 @@
+.example-card {
+  max-width: 91%;
+  text-align: center;
+  align-items: center;
+  padding: 10px;
+  margin: auto;
+  float: none;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(143, 188, 143, 0);
+  color: black;
+}

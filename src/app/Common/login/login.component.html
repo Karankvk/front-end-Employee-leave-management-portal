@@ -1,0 +1,168 @@
+<div class="divImg">
+  <Form class="FormLogin" [formGroup]="login_form" (ngSubmit)="loginUser()">
+    <mat-card class="form-card">
+      <mat-card-title>Enter your credential</mat-card-title>
+      <mat-divider inset></mat-divider>
+      <br>
+      <mat-card-content style="margin-top: 20px">
+        <form action="/action_page.php" [formGroup]="login_form">
+          <!-- Username Input -->
+          <mat-form-field
+            class="reason-input"
+            appearance="fill"
+            style="margin-top: 20px"
+          >
+          <mat-label>Enter your email</mat-label>
+          <input
+            matInput
+            [(ngModel)]="login.username"
+            id="usernameInput"
+            placeholder="pat@example.com"
+            name="username"
+            formControlName="username"
+            required
+          />
+          <mat-error *ngIf="login_form.invalid"><p style="font-size: small;"> Please fill this field correct </p></mat-error>
+          </mat-form-field>
+          <br>
+          <!-- Password Input -->
+          <mat-form-field
+            class="reason-input"
+            appearance="fill"
+            style="margin-top: 20px"
+          >
+          <mat-label>Enter your password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'"
+          [(ngModel)]="login.password"
+          id="password"
+          name="password"
+          formControlName="password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-error *ngIf="login_form.invalid"><p style="font-size: small;"> Please fill this field correct </p></mat-error>
+          </mat-form-field>
+        </form>
+        <br>
+        <div class="col text-center">
+          <a
+          mat-button
+            href="#forgetPasswordModal"
+            data-bs-toggle="modal"
+            data-bs-target="#forgetPasswordModal"
+            (click)="rowItems(login)"
+          >
+            Forgot password?
+          </a>
+        </div>
+
+        <mat-divider inset></mat-divider>
+
+        <!-- Button to submit -->
+        <mat-card-actions>
+          <button
+            mat-button
+            type="submit"
+            [disabled]="login_form.invalid"
+          >
+          Login
+          </button>
+        </mat-card-actions>
+      </mat-card-content>
+    </mat-card>
+  </Form>
+  <img [src]="imageSrc" [alt]="imageAlt" style="height: 100%; width: 100%" />
+</div>
+
+<!-- The Modal to update loginDetails-->
+<div class="modal" id="forgetPasswordModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Update login password</h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form
+          action="/action_page.php"
+          [formGroup]="forget_form"
+          (ngSubmit)="forgetPassword()"
+        >
+          <p>Enter new password.</p>
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="login.password"
+              id="password"
+              placeholder="Enter LoginId"
+              name="password"
+              formControlName="password"
+            />
+            <label for="password">Password</label>
+          </div>
+
+          <span
+            *ngIf="lPassword && lPassword.invalid && lPassword.touched"
+            style="color: red"
+          >
+            Password is invalid
+          </span>
+
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="login.loginId"
+              id="password"
+              placeholder="Enter LoginId"
+              name="loginId"
+              formControlName="loginId"
+            />
+            <label for="loginId">Login Id</label>
+          </div>
+
+          <span
+            *ngIf="lLoginId && lLoginId.invalid && lLoginId.touched"
+            style="color: red"
+          >
+            Login Id is invalid
+          </span>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          [disabled]="forget_form.invalid"
+          (click)="forgetPassword()"
+          (click)="showToastrUpdated()"
+        >
+          😎 Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+
+<!-- <div *ngIf="authentication">
+  <app-side-nav-bar></app-side-nav-bar>
+</div> -->

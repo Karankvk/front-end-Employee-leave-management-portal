@@ -1,0 +1,66 @@
+<div class="bg-light">
+  <div
+    class="grid-container"
+    id="dashBoard"
+    fxLayout
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutAlign="center"
+    fxLayoutGap="30px"
+    fxLayoutGap.xs="0"
+  >
+    <div class="item item-1"
+      [routerLink]="'/layout/employeeDetails'"
+      [routerLinkActive]="['isActive']"
+    >
+      <img
+        src="../assets/office-worker-manager.png"
+        alt="manager"
+        height="100px"
+        width="100px"
+      />
+      <br />
+      Number Of Managers: ⇛ {{ this.manCount }}
+    </div>
+    <div class="item item-2"
+    [routerLink]="'/layout/employeeDetails'"
+    [routerLinkActive]="['isActive']"
+    >
+      <img
+        src="../assets/office-worker-employee.png"
+        alt="employee"
+        height="100px"
+        width="100px"
+      />
+      <br />
+      Number Of Employee: ⇛ {{ this.empCount }}
+    </div>
+    <div class="item item-2"
+    [routerLink]="'/layout/managerLeaveDetails'"
+    >
+      <img
+        src="../assets/envelope_leave.png"
+        alt="leave"
+        height="100px"
+        width="100px"
+      />
+      <br />
+      Number Of Leaves: ⇛ {{ this.leaCount }}
+    </div>
+  </div>
+  <div class="graphContainer" style="align-items: center; text-align: center">
+    <div class="itemGraph item-4">
+      <canvas
+        ngChartjs
+        [datasets]="lineChartData"
+        [labels]="lineChartLabels"
+        [options]="lineChartOptions"
+        [legend]="lineChartLegend"
+        chartType="bar"
+        responsive="true"
+      >
+      </canvas>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

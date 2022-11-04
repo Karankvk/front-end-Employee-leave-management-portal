@@ -1,0 +1,127 @@
+<mat-card class="form-card">
+  <mat-card-title>Employee leave form</mat-card-title>
+  <mat-divider inset></mat-divider>
+  <mat-card-content style="margin-top: 20px">
+    <form action="/action_page.php" [formGroup]="submitLeaveForm" (ngSubmit)="saveManagerLeave()">
+
+       <!-- Leave select -->
+       <mat-form-field appearance="fill" style="margin-top: 20px">
+        <mat-label>Leave type</mat-label>
+        <mat-select
+          [(ngModel)]="leave.leaveType"
+          name="leaveType"
+          formControlName="leaveType"
+        >
+          <mat-option>None</mat-option>
+          <mat-option value="Casual">Casual</mat-option>
+          <mat-option value="Sick">Sick</mat-option>
+          <mat-option value="LOP">Loss On Pay</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <p style="color: springgreen;">You selected: {{ selected }}</p> -->
+      <p style="color: rgb(251, 255, 0);">Leave left: {{ leaveLeft }}</p>
+      <span
+        *ngIf="leaveType && leaveType.invalid && leaveType.touched"
+        ></span
+      >
+
+      <!-- Leave Start-Date -->
+      <mat-form-field class="leaveStart-datePicker" appearance="fill">
+        <mat-label>Start Date</mat-label>
+        <input
+          matInput
+          [min]="minDate"
+          [matDatepicker]="picker1"
+          [(ngModel)]="leave.startDate"
+          formControlName="startDate"
+          (dateChange)="addEvent($event)"
+          (dateChange)="show($event)"
+        />
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      <span
+        *ngIf="startDate && startDate.invalid && startDate.touched"
+
+        ></span
+      >
+
+      <!-- Leave End-Date -->
+      <mat-form-field class="leaveStart-datePicker" appearance="fill" >
+        <mat-label>End Date</mat-label>
+        <input
+          matInput
+          [min]="minEndDate"
+          [max]="maxDate"
+          [matDatepicker]="picker2"
+          [(ngModel)]="leave.endDate"
+          formControlName="endDate"
+          [disabled]="view"
+        />
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+      <span
+        *ngIf="endDate && endDate.invalid && endDate.touched"
+        ></span
+      >
+
+      <!-- Reason Input -->
+      <mat-form-field
+        class="reason-input"
+        appearance="fill"
+        style="margin-top: 20px"
+      >
+        <mat-label>Reason</mat-label>
+        <input
+          matInput
+          placeholder="Ex. Cold"
+          [(ngModel)]="leave.reason"
+          formControlName="reason"
+        />
+      </mat-form-field>
+      <span
+        *ngIf="reason && reason.invalid && reason.touched"
+        ></span
+      >
+
+      <!-- EmployeeId Input -->
+      <mat-form-field
+        class="employeeid-input"
+        appearance="fill"
+        style="margin-top: 20px"
+        [hidden]="true"
+      >
+        <mat-label>Employee ID</mat-label>
+        <input
+          matInput
+          placeholder="Ex. 69"
+          [(ngModel)]="leave.employeeID"
+          [(ngModel)]="submitLeaveForm.value.employeeID"
+          formControlName="employeeID"
+        />
+      </mat-form-field>
+      <span
+        *ngIf="employeeId && employeeId.invalid && employeeId.touched"
+        ></span
+      >
+
+    </form>
+
+    <mat-divider inset></mat-divider>
+
+    <!-- Button to submit -->
+    <mat-card-actions>
+      <button
+        mat-button
+        type="submit"
+        [disabled]="submitLeaveForm.invalid"
+        (click)="saveManagerLeave()"
+      >
+        Submit
+      </button>
+    </mat-card-actions>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,64 @@
+<div class="bg-light">
+  <div
+    class="grid-container"
+    id="dashBoard"
+    fxLayout
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    fxLayoutAlign="center"
+    fxLayoutGap="30px"
+    fxLayoutGap.xs="0"
+  >
+    <div class="item item-1">
+      <h1>Profile information:</h1>
+      <br />
+      <br />
+      Designation ⇛ {{ this.designation }}
+      <br />
+      <br />
+      Qualification ⇛ {{ this.qualification }}
+      <br />
+      <br />
+      D.O.B ⇛ {{ this.dateOfBirth | date: "dd-MMM-YYYY" }}
+    </div>
+    <div class="item item-2">
+      <img
+        src="../assets/office-worker-manager.png"
+        alt="leave"
+        height="120px"
+        width="120px"
+      />
+      <br>
+      <br>
+      Reporting to:
+      ⇛ {{ this.reportingTo }}
+    </div>
+    <div class="item item-2">
+      <img
+        src="../assets/LeaveLeft.png"
+        alt="leave"
+        height="120px"
+        width="120px"
+      />
+      <br>
+      <br>
+      Leave taken:
+      ⇛ {{ this.leaveLeft }}
+    </div>
+  </div>
+  <div class="graphContainer" style="align-items: center; text-align: center">
+    <div class="itemGraph item-4">
+      <canvas
+        ngChartjs
+        [datasets]="lineChartData"
+        [labels]="lineChartLabels"
+        [options]="lineChartOptions"
+        [legend]="lineChartLegend"
+        chartType="bar"
+        responsive="true"
+      >
+      </canvas>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

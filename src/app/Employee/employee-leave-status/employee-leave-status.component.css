@@ -1,0 +1,17 @@
+.btn-edit-user {
+  float: left;
+  border: 0px;
+  border-radius: 50px;
+}
+.btn-revoke-user {
+  float: right;
+  border: 0px;
+  border-radius: 50px;
+}
+#tableDiv {
+  font-size: 14px;
+  width: 100%;
+  position: relative;
+  align-items: center;
+  word-break: break-word;
+}

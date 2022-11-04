@@ -1,0 +1,20 @@
+.form-card {
+  border: 0px;
+  border-radius: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+  margin-top: 50px;
+  float: none;
+  margin-bottom: 10px;
+  text-align: center;
+  /* background-color: rgb(245, 245, 245); */
+  color: whitesmoke;
+}
+
+mat-form-field {
+  text-align: center;
+  margin: 0 auto;
+  float: none;
+  display: flex;
+  flex-direction: column;
+}

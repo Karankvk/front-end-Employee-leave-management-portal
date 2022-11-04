@@ -1,0 +1,189 @@
+<mat-sidenav-container class="sidenav-container bg-light">
+  <mat-sidenav
+    [ngStyle]="{ width: width + '%' }"
+    [sideNav]="sidenav"
+    (setWidth)="setWidth(0)"
+    appOpenSidebarOnSwipe
+    #sidenav
+    mode="over"
+    (mouseleave)="sidenav.close()"
+  >
+    <mat-toolbar>
+      <div *ngIf="admin">
+        <span>
+          <br /><br /><br /><br />
+          <img
+            src="../assets/Admin.png"
+            alt="Admin"
+            style="
+              align-items: center;
+              text-align: center;
+              margin: auto;
+              padding: 10px;
+            "
+          />
+          <br />
+          {{ this.employeeName }}
+        </span>
+      </div>
+    </mat-toolbar>
+    <mat-toolbar>
+      <div *ngIf="manager" style="text-align: center">
+        <img
+          src="../assets/office-worker-manager.png"
+          alt="manager"
+          height="145px"
+          width="150px"
+          style="
+            align-items: center;
+            text-align: center;
+            margin: auto;
+            padding: 10px;
+          "
+        />
+        <br />
+        {{ this.employeeName }}
+      </div>
+    </mat-toolbar>
+    <mat-toolbar style="align-items: flex-end">
+      <div *ngIf="employee">
+        <img
+          src="../assets/office-worker-employee.png"
+          height="150px"
+          width="155px"
+          alt="employee"
+          style="
+            align-items: center;
+            text-align: center;
+            margin: auto;
+            padding: 10px;
+          "
+        />
+        <br />
+        {{ this.employeeName }}
+      </div>
+    </mat-toolbar>
+    <mat-nav-list>
+      <div *ngIf="admin">
+        <a
+          mat-list-item
+          [routerLink]="'/layout/adminDashboard'"
+          [routerLinkActive]="['isActive']"
+          >Dashboard</a
+        >
+        <a
+          mat-list-item
+          [routerLink]="'/layout/employeeDetails'"
+          [routerLinkActive]="['isActive']"
+          >Employee Details</a
+        >
+        <a
+          mat-list-item
+          [routerLink]="'/layout/managerLeaveDetails'"
+          [routerLinkActive]="['isActive']"
+          >Manage Leaves</a
+        >
+        <a
+          mat-list-item
+          [routerLink]="'/layout/uploadExcel_exportPdf'"
+          [routerLinkActive]="['isActive']"
+        >
+          File Upload
+        </a>
+
+      </div>
+      <div *ngIf="manager">
+        <a
+          mat-list-item
+          [routerLink]="'/layout/managerDashboard'"
+          [routerLinkActive]="['isActive']"
+          >Dashboard</a
+        >
+        <a
+          mat-list-item
+          [routerLink]="'/layout/employeeLeaveDetails'"
+          [routerLinkActive]="['isActive']"
+          >Employee Details</a
+        >
+        <a
+          mat-list-item
+          [routerLink]="'/layout/applyLeave'"
+          [routerLinkActive]="['isActive']"
+          >Apply Leave</a
+        >
+        <a
+          mat-list-item
+          [routerLink]="'/layout/managerLeaveStatus'"
+          [routerLinkActive]="['isActive']"
+          >Leave Status</a
+        >
+      </div>
+      <div *ngIf="employee">
+        <a
+          mat-list-item
+          [routerLink]="'/layout/employeeDashboard'"
+          [routerLinkActive]="['isActive']"
+          >Dashboard</a
+        >
+        <a
+          mat-list-item
+          [routerLink]="'/layout/applyLeave'"
+          [routerLinkActive]="['isActive']"
+          >Apply Leave</a
+        >
+        <a
+          mat-list-item
+          [routerLink]="'/layout/employeeLeaveStatus'"
+          [routerLinkActive]="['isActive']"
+          >Leave Status</a
+        >
+      </div>
+    </mat-nav-list>
+    <!-- </div> -->
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="dark" class="sticky-top">
+      <button
+        id="menuButton"
+        mat-mini-fab
+        color="dark"
+        (mouseenter)="sidenav.open()"
+      >
+        <!-- (click)="sidenav.open()" -->
+        <mat-icon>menu</mat-icon>
+      </button>
+      <!-- </div> -->
+      <span>Employee Leave Management Portal</span>
+      <span class="example-spacer"></span>
+
+      <button
+        mat-icon-button
+        class="example-icon favorite-icon"
+        aria-label="Example icon-button with folder_shared"
+        [routerLink]="'/layout/fileManagement'"
+      >
+        <mat-icon matTooltip="Folder Shared">folder_shared</mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        class="example-icon favorite-icon"
+        aria-label="Example icon-button with heart icon"
+        [routerLink]="'/layout/updatePassword'"
+      >
+        <mat-icon matTooltip="Setting">settings</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        class="example-icon"
+        aria-label="Example icon-button with share icon"
+        [routerLink]="'/logout'"
+      >
+        <mat-icon matTooltip="Logout">logout</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

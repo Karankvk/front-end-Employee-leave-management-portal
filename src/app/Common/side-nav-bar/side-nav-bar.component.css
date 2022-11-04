@@ -1,0 +1,21 @@
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+/* .sidenav .mat-toolbar {
+  background: inherit;
+} */
+
+.sidenav-container{
+  height: 100%;
+}
+
+.isActive {
+  background-color: rgba(127, 255, 212, 0.425);
+}
+
+.mat-drawer {
+  background-color: #607d8b;
+  color: #fff;
+}

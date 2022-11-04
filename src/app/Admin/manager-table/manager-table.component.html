@@ -1,0 +1,520 @@
+
+<!-- Manager Table and its functions -->
+<!-- <h1 class="managerH2" style="text-align: center; color: black;">Manager details</h1>
+
+<div id="tableDiv" class="container mt-5">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Designation</th>
+        <th>Date Of Joining</th>
+        <th>Qualification</th>
+        <th>Date Of Birth</th>
+        <th>Contact</th>
+        <th>Reporting</th>
+        <th>LoginId</th>
+        <th>
+          <a
+            id="addBtn"
+            class="btn btn-sm btn-success mb-2"
+            data-bs-toggle="modal"
+            data-bs-target="#addEmployeeModal"
+          >
+            <i class="fa-solid fa-user-plus"></i> Add Manager</a
+          >
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of employeeManagers">
+        <td>{{ employee.eName }}</td>
+        <td>{{ employee.eDesignation }}</td>
+        <td>{{ employee.doj | date: "dd-MMM-yyyy" }}</td>
+        <td>{{ employee.qualification }}</td>
+        <td>{{ employee.dob | date: "dd-MMM-yyyy" }}</td>
+        <td>{{ employee.contact }}</td>
+        <td>{{ employee.reporting }}</td>
+        <td>{{ employee.loginId }}</td>
+        <td style="white-space: nowrap">
+          <button
+            class="btn btn-sm btn-primary btn-edit-user"
+            data-bs-toggle="modal"
+            data-bs-target="#editEmployeeModal"
+            (click)="rowItems(employee)"
+          >
+            <i class="fa-solid fa-user-edit"></i>
+            Edit
+          </button>
+
+          <button
+            class="btn btn-sm btn-danger btn-delete-user"
+            data-bs-toggle="modal"
+            data-bs-target="#deleteEmployeeModal"
+            (click)="rowItems(employee)"
+          >
+            <i class="fa-solid fa-trash-can"></i>
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->
+
+<!-- The Modal for add employee -->
+<!-- <div class="modal" id="addEmployeeModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content"> -->
+      <!-- Modal Header -->
+      <!-- <div class="modal-header">
+        <h4 class="modal-title">Register employee</h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div> -->
+
+      <!-- Modal body -->
+      <!-- <div class="modal-body">
+        <form
+          action="/action_page.php"
+          [formGroup]="create_form"
+          (ngSubmit)="saveEmployee()"
+        >
+          <div class="form-floating mb-3 mt-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.eName"
+              id="eName"
+              placeholder="Enter name"
+              name="eName"
+              formControlName="eName"
+            />
+            <label for="name">Name</label>
+          </div>
+
+          <span
+            *ngIf="eName && eName.invalid && eName.touched"
+            style="color: red"
+          >
+            Name is invalid
+          </span>
+
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.eDesignation"
+              id="eDesignation"
+              placeholder="Enter designation"
+              name="eDesignation"
+              formControlName="eDesignation"
+            />
+            <label for="designation">Designation</label>
+          </div>
+
+          <span
+            *ngIf="eDesignaton && eDesignaton.invalid && eDesignaton.touched"
+            style="color: red"
+          >
+            Designation is invalid
+          </span>
+
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.doj"
+              id="doj"
+              placeholder="Enter date of joining"
+              name="doj"
+              formControlName="doj"
+            />
+            <label for="DateOfJoining">Date Of Joining(yyyy-mm-dd)</label>
+          </div>
+
+          <span *ngIf="doj && doj.invalid && doj.touched" style="color: red"
+            >Date is invalid</span
+          >
+
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.qualification"
+              id="qualification"
+              placeholder="Enter qualification"
+              name="qualification"
+              formControlName="qualification"
+            />
+            <label for="qualification">Qualification</label>
+          </div>
+
+          <span
+            *ngIf="
+              qualification && qualification.invalid && qualification.touched
+            "
+            style="color: red"
+            >Qualification is invalid</span
+          >
+
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.dob"
+              id="dob"
+              placeholder="Enter DateOfBirth"
+              name="dob"
+              formControlName="dob"
+            />
+            <label for="DateOfBirth">Date Of Birth(yyyy-mm-dd)</label>
+          </div>
+
+          <span *ngIf="dob && dob.invalid && dob.touched" style="color: red"
+            >Date is invalid</span
+          >
+
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.contact"
+              id="contact"
+              placeholder="Enter contact"
+              name="contact"
+              formControlName="contact"
+            />
+            <label for="contact">Contact</label>
+          </div>
+
+          <span
+            *ngIf="contact && contact.invalid && contact.touched"
+            style="color: red"
+            >Contact is invalid</span
+          >
+
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.reporting"
+              id="reporting"
+              placeholder="Enter reporting"
+              name="reporting"
+              formControlName="reporting"
+            />
+            <label for="reporting">Reporting</label>
+          </div>
+
+          <span
+            *ngIf="reporting && reporting.invalid && reporting.touched"
+            style="color: red"
+            >Report is invalid</span
+          >
+
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.loginId"
+              id="loginID"
+              placeholder="Enter LoginID"
+              name="loginID"
+              formControlName="loginID"
+            />
+            <label for="loginID">Login Id</label>
+          </div>
+
+          <span
+            *ngIf="loginID && loginID.invalid && loginID.touched"
+            style="color: red"
+            >Id is invalid</span
+          >
+        </form>
+      </div> -->
+
+      <!-- Modal footer -->
+      <!-- <div class="modal-footer">
+        <button
+          type="button, submit"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          [disabled]="create_form.invalid"
+          (click)="saveEmployee()"
+          (click)="showToastrCreated()"
+        >
+          😎 Add
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- The Modal for edit employee -->
+<!-- <div class="modal" id="editEmployeeModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content"> -->
+      <!-- Modal Header -->
+      <!-- <div class="modal-header">
+        <h4 class="modal-title">Update details</h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div> -->
+
+      <!-- Modal body -->
+      <!-- <div class="modal-body">
+        <form
+          id="editForm"
+          action="/action_page.php"
+          [formGroup]="update_form"
+          (ngSubmit)="updateAnEmployee()"
+        >
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.employeeId"
+              id="employeeId"
+              placeholder="Enter employeeID"
+              name="employeeId"
+              formControlName="employeeId"
+            />
+            <label for="Id">Employee Id</label>
+          </div>
+
+          <span
+            *ngIf="employeeId && employeeId.invalid && employeeId.touched"
+            style="color: red"
+          >
+            Invalid employee Id
+          </span>
+
+          <div class="form-floating mb-3 mt-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.eName"
+              id="eName"
+              placeholder="Enter name"
+              name="eName"
+              formControlName="eName"
+            />
+            <label for="Name">Name</label>
+          </div>
+
+          <span
+            *ngIf="ename && ename.invalid && ename.touched"
+            style="color: red"
+          >
+            Name is invalid
+          </span>
+
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.eDesignation"
+              id="eDesignation"
+              placeholder="Enter designation"
+              name="eDesignation"
+              formControlName="eDesignation"
+            />
+            <label for="Designation">Designation</label>
+          </div>
+
+          <span
+            *ngIf="edesignaton && edesignaton.invalid && edesignaton.touched"
+            style="color: red"
+          >
+            Designation is invalid
+          </span>
+
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.doj"
+              id="doj"
+              placeholder="Enter date of joining"
+              name="doj"
+              formControlName="doj"
+            />
+            <label for="dateOfJoining">Date Of Joining(yyyy-mm-dd)</label>
+          </div>
+
+          <span
+            *ngIf="
+              dateOfJoining && dateOfJoining.invalid && dateOfJoining.touched
+            "
+            style="color: red"
+          >
+            Date is invalid
+          </span>
+
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.qualification"
+              id="qualification"
+              placeholder="Enter qualification"
+              name="qualification"
+              formControlName="qualification"
+            />
+            <label for="qualification">Qualification</label>
+          </div>
+
+          <span
+            *ngIf="
+              eQualification && eQualification.invalid && eQualification.touched
+            "
+            style="color: red"
+          >
+            Qualification is invalid
+          </span>
+
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.dob"
+              id="dob"
+              placeholder="Enter DateOfBirth"
+              name="dob"
+              formControlName="dob"
+            />
+            <label for="dateOfBirth">Date Of Birth(yyyy-mm-dd)</label>
+          </div>
+
+          <span
+            *ngIf="dateOfBirth && dateOfBirth.invalid && dateOfBirth.touched"
+            style="color: red"
+          >
+            Date is invalid
+          </span>
+
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.contact"
+              id="contact"
+              placeholder="Enter contact"
+              name="contact"
+              formControlName="contact"
+            />
+            <label for="Contact">Contact</label>
+          </div>
+
+          <span
+            *ngIf="Contact && Contact.invalid && Contact.touched"
+            style="color: red"
+          >
+            Contact is invalid
+          </span>
+
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="employee.reporting"
+              id="reporting"
+              placeholder="Enter reporting"
+              name="reporting"
+              formControlName="reporting"
+            />
+            <label for="Reporting">Reporting</label>
+          </div>
+
+          <span
+            *ngIf="Reporting && Reporting.invalid && Reporting.touched"
+            style="color: red"
+          >
+            Reporting is invalid
+          </span>
+        </form>
+      </div> -->
+
+      <!-- Modal footer -->
+      <!-- <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          [disabled]="update_form.invalid"
+          (click)="updateAnEmployee()"
+          (click)="showToastrUpdated()"
+        >
+          👍🏽 Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- The Modal for delete an employee -->
+<!-- <div class="modal" id="deleteEmployeeModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content"> -->
+      <!-- Modal Header -->
+      <!-- <div class="modal-header">
+        <h4 class="modal-title">Delete an employee</h4>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div> -->
+
+      <!-- Modal body -->
+      <!-- <div class="modal-body">
+        <form
+          action="/action_page.php"
+          [formGroup]="delete_form"
+          (ngSubmit)="deleteEmployee()"
+        >
+          <p>Sure you want to delete entire record of this employee.</p>
+          <div class="form-floating mt-3 mb-3">
+            <input
+              type="text"
+              class="form-control"
+              [ngModel]="employee.employeeId"
+              id="employeeID"
+              placeholder="Enter employeeID"
+              name="employeeId"
+              formControlName="employeeId"
+            />
+            <label for="employeeID">Employee Id</label>
+          </div>
+          <span
+            *ngIf="EmployeeId && EmployeeId.invalid && EmployeeId.touched"
+            style="color: red"
+          >
+            Id is invalid
+          </span>
+        </form>
+      </div> -->
+
+      <!-- Modal footer -->
+      <!-- <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          [disabled]="delete_form.invalid"
+          (click)="deleteEmployee()"
+          (click)="showToastrDeleted()"
+        >
+          😭 Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
